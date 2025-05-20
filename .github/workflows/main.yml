@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - testbranch
     paths:
       - 'README.md'
   workflow_dispatch:  # allows manual trigger
