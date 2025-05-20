@@ -1,0 +1,31 @@
+name: Sync README to Main
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+  workflow_dispatch:  # allows manual trigger
+  schedule:
+    - cron: '*/5 * * * *'  # runs every minute
+
+jobs:
+  sync-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit README if changed
+        run: |
+          git add README.md
+          git diff --cached --quiet || git commit -m "Auto-sync README to main"
+          git push origin main
