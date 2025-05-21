@@ -25,9 +25,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Switch to main branch
+        run: git checkout main
+
       - name: Commit and push if README changed
         run: |
-          git checkout main
           git add README.md
           git diff --cached --quiet || git commit -m "Auto-sync README to main"
           git push https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/SurbhiAgarwal12/testrepo1.git HEAD:main
