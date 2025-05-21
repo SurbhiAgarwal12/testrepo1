@@ -3,7 +3,6 @@ name: Sync README to Main
 on:
   push:
     branches:
-      - main
       - testbranch
     paths:
       - 'README.md'
