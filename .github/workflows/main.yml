@@ -3,6 +3,7 @@ name: Sync README to Main
 on:
   push:
     branches:
+      - main
       - testbranch
     paths:
       - 'README.md'
@@ -26,6 +27,7 @@ jobs:
 
       - name: Commit and push if README changed
         run: |
+          git checkout main
           git add README.md
           git diff --cached --quiet || git commit -m "Auto-sync README to main"
           git push https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/SurbhiAgarwal12/testrepo1.git HEAD:main
