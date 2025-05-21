@@ -1,35 +1,37 @@
-name: Sync README to Main
+name: Sync README from testbranch to main
 
 on:
   push:
     branches:
-      - main
       - testbranch
     paths:
       - 'README.md'
   workflow_dispatch:
-  schedule:
-    - cron: '*/5 * * * *'  # runs every 5 minutes
 
 jobs:
   sync-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout testbranch
         uses: actions/checkout@v4
         with:
+          ref: testbranch
           token: ${{ secrets.PERSONAL_TOKEN }}
 
-      - name: Configure Git
+      - name: Copy README.md to temp
+        run: cp README.md /tmp/README.md
+
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.PERSONAL_TOKEN }}
+
+      - name: Replace README.md from testbranch
         run: |
+          cp /tmp/README.md README.md
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Switch to main branch
-        run: git checkout main
-
-      - name: Commit and push if README changed
-        run: |
           git add README.md
-          git diff --cached --quiet || git commit -m "Auto-sync README to main"
+          git diff --cached --quiet || git commit -m "Sync README from testbranch"
           git push https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/SurbhiAgarwal12/testrepo1.git HEAD:main
