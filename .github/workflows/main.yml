@@ -7,7 +7,7 @@ on:
       - testbranch
    # paths:
    #   - 'README.md' 
-  workflow_dispatch:
+ # workflow_dispatch:
 
 jobs:
   sync-readme:
