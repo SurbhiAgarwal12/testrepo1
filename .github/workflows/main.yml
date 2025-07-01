@@ -1,11 +1,12 @@
 name: Sync README from testbranch to main
 
 on:
+ # Trigger the workflow on any push to testbranch
   push:
     branches:
       - testbranch
-    paths:
-      - 'README.md'
+   # paths:
+   #   - 'README.md' 
   workflow_dispatch:
 
 jobs:
